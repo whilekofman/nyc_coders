@@ -6,36 +6,46 @@ class AdjacencyList {
     }
 
     addVertex(v) {
-        this.list[v] = []
+        if (!this.list[v]) {
+            this.list[v] = [];
+        }
     }
 
     addEdge(v1, v2) {
-        this.list[v1].push(v2)
+        this.list[v1].push(v2);
         this.list[v2].push(v1);
-
-    }
-
-    removeVertex(v) {
-        const vEdges = this.list[v]
-        console.log(vEdges)
-        let that = v
-        for(let i = 0; i < vEdges.length; i++){
-            this.removeEdge(v, vEdges[i])
-        }
-        // vEdges.forEach(edge => {
-        //     console.log(that, edge, "this edge")
-        //     this.removeEdge(that, edge)
-        // })
-        // delete this.list[v]
     }
 
     removeEdge(v1, v2) {
-        const edgesV1 = this.list[v1]
-        const indexEdge1 = edgesV1.indexOf(v2)
-        edgesV1.splice(indexEdge1, 1)
-        const edgesV2 = this.list[v2]
-        const indexEdge2 = edgesV2.indexOf(v1)
-        edgesV2.splice(indexEdge2, 1)
+        // using filter:
+        this.list[v1] = this.list[v1].filter((v) => v !== v2);
+        this.list[v2] = this.list[v2].filter((v) => v !== v1);
+
+        // using splice: The below works if we are to call remove edges individually however removeVertex will not work
+        // const edgesV1 = this.list[v1];
+        // const indexEdge1 = edgesV1.indexOf(v2);
+        // edgesV1.splice(indexEdge1, 1);
+        // const edgesV2 = this.list[v2];
+        // const indexEdge2 = edgesV2.indexOf(v1);
+        // edgesV2.splice(indexEdge2, 1);
+    }
+    removeVertex(v) {
+        const vEdges = this.list[v];
+        console.log(vEdges);
+        // let that = v;
+        // while (vEdges.length) {
+        //     const v2 = vEdges.pop();
+        //     console.log(v2);
+        //     this.removeEdge(v2, v);
+        // }
+        // for(let i = 0; i < vEdges.length; i++){
+        //     this.removeEdge(that, vEdges[i])
+        // }
+        vEdges.forEach(edge => {
+            // console.log(that, edge, "this edge")
+            this.removeEdge(v, edge)
+        })
+        // delete this.list[v]
     }
 }
 
